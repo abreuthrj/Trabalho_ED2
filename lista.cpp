@@ -10,5 +10,5 @@ class Lista
         Lista(ifstream& file);
         ~Lista();
 
-        void printa_lista();
+        void print();
 };

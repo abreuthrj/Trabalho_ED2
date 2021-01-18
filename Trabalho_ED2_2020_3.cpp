@@ -10,5 +10,7 @@ int main()
     ifstream file(fname);
     Lista* lista = new Lista(file);
 
+    //lista->print();
+
     return 0;
 }

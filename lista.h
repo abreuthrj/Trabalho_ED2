@@ -5,14 +5,6 @@ using namespace std;
 
 Lista::Lista(ifstream& file)
 {
-    /**
-     * INICIA AS VARIAVEIS DA CLASSE
-    **/
-   //this->primeiro_no = nullptr;
-   //this->ultimo_no = nullptr;
-   this->tam = 100000;
-   this->pos = 0;
-   this->vet = new No*[this->tam];
 
     /**
      * VERIFICA SE ARQUIVO FOI ABERTO CORRETAMENTE
@@ -22,6 +14,15 @@ Lista::Lista(ifstream& file)
         cout << "Não foi possível ler o arquivo" << endl;
         exit(0);
     }
+
+    /**
+     * INICIA AS VARIAVEIS DA CLASSE
+    **/
+   file.seekg(0,file.end);
+   this->tam = file.tellg();
+   file.seekg(0);
+   this->pos = 0;
+   this->vet = new No*[this->tam];
 
     /**
      * REALIZA A LEITURA DOS DADOS SALVANDO EM FORMA DE NÓS
@@ -39,24 +40,22 @@ Lista::Lista(ifstream& file)
 
         string line_aux = line;
 
-        string data = line_aux.substr(0, line_aux.find_first_of(','));
-        line_aux = line_aux.substr(line_aux.find_first_of(','));
+        string data = line_aux.substr(0, line_aux.find(','));
+        line_aux = line_aux.substr(line_aux.find(',')+1);
 
-        string estado = line_aux.substr(0, line_aux.find_first_of(','));
-        line_aux = line_aux.substr(line_aux.find_first_of(','));
+        string estado = line_aux.substr(0, line_aux.find(','));
+        line_aux = line_aux.substr(line_aux.find(',')+1);
 
-        string cidade = line_aux.substr(0, line_aux.find_first_of(','));
-        line_aux = line_aux.substr(line_aux.find_first_of(','));
+        string cidade = line_aux.substr(0, line_aux.find(','));
+        line_aux = line_aux.substr(line_aux.find(',')+1);
 
-        string codigo = line_aux.substr(0, line_aux.find_first_of(','));
-        line_aux = line_aux.substr(line_aux.find_first_of(','));
+        float codigo = stof(line_aux.substr(0, line_aux.find(',')));
+        line_aux = line_aux.substr(line_aux.find(',')+1);
 
-        float casos = stof(line_aux.substr(0, line_aux.find_first_of(',')));
-        line_aux = line_aux.substr(line_aux.find_first_of(','));
+        int casos = stof(line_aux.substr(0, line_aux.find(',')));
+        line_aux = line_aux.substr(line_aux.find(',')+1);
 
-        int mortes = stoi(line_aux.substr(0, line_aux.find_first_of(',')));
-        line_aux = line_aux.substr(line_aux.find_first_of(','));
-
+        int mortes = stoi(line_aux.substr(0, line_aux.find(',')));
 
         this->vet[pos] = new No(data,estado,cidade,codigo,casos,mortes);
 
@@ -70,10 +69,10 @@ Lista::~Lista()
     delete [] this->vet;
 }
 
-void Lista::printa_lista()
+void Lista::print()
 {
     for( int i=0; i < this->pos; i++ )
     {
-        cout << this->vet[i]->getData() << "," << this->vet[i]->getEstado() << "," << this->vet[i]->getCidade() << "," << this->vet[i]->getCodigo() << "," << this->vet[i]->getCasos() << "," << this->vet[i]->getMortes();
+        cout << this->vet[i]->getData() << "," << this->vet[i]->getEstado() << "," << this->vet[i]->getCidade() << "," << this->vet[i]->getCodigo() << "," << this->vet[i]->getCasos() << "," << this->vet[i]->getMortes() << endl;;
     }
 }

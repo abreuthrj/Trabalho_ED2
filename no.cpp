@@ -8,15 +8,15 @@ class No
         string data;
         string estado;
         string cidade;
-        string codigo;
-        float casos;
+        float codigo;
+        int casos;
         int mortes;
 
         No* prox_no;
         No* ant_no;
     public:
         No();
-        No(string data, string estado, string cidade, string codigo, float casos, int mortes);
+        No(string data, string estado, string cidade, float codigo, int casos, int mortes);
         ~No();
 
         void set_prox(No* no){ this->prox_no = no; }
@@ -26,7 +26,7 @@ class No
         string getData(){ return this->data; }
         string getEstado(){ return this->estado; }
         string getCidade(){ return this->cidade; }
-        string getCodigo(){ return this->codigo; }
-        float getCasos(){ return this->casos; }
+        float getCodigo(){ return this->codigo; }
+        int getCasos(){ return this->casos; }
         int getMortes(){ return this->mortes; }
 };
