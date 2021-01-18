@@ -112,7 +112,7 @@ void Lista::heap_sort()
 
     for( int i = this->pos; i > 0; i-- )
     {
-        No* aux = this->vet[0]
+        No* aux = this->vet[0];
         this->vet[0] = this->vet[this->pos];
         this->vet[this->pos] = aux;
         this->max_heapify(this->vet, 0, i-1);

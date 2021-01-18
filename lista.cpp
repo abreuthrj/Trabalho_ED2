@@ -7,7 +7,7 @@ class Lista
         int pos;
         No** vet;
 
-        void max_heapify();
+        void max_heapify(No** vet, int i, int n);
     public:
         Lista(ifstream& file);
         ~Lista();
