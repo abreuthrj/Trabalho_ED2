@@ -3,9 +3,12 @@
 class Lista
 {
     private:
-        No* primeiro_no;
-        No* ultimo_no;
+        int tam;
+        int pos;
+        No** vet;
     public:
-        Lista(std::ifstream& file);
+        Lista(ifstream& file);
         ~Lista();
+
+        void printa_lista();
 };
