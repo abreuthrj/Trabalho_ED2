@@ -61,9 +61,9 @@ Lista::Lista(ifstream& file)
 
         int mortes = stoi(line_aux.substr(0, line_aux.find(',')));
 
-        this->vet[pos] = new No(data,estado,cidade,codigo,casos,mortes);
+        this->vet[this->pos] = new No(data,estado,cidade,codigo,casos,mortes);
 
-        pos++;
+        this->pos++;
         
     }
 }
@@ -116,6 +116,7 @@ void Lista::heap_sort()
         this->vet[0] = this->vet[this->pos];
         this->vet[this->pos] = aux;
         this->max_heapify(this->vet, 0, i-1);
+        cout << "Iteração: " << i;
     }
 
 }
