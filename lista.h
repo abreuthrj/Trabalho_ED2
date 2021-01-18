@@ -38,6 +38,7 @@ Lista::Lista(ifstream& file)
     while( getline(file,line) ){
         if( this->pos >= this->tam )
         {
+            this->pos++;
             cout << "Maximo de dados suportados pela lista atingido" << endl;
             break;
         }
@@ -66,6 +67,10 @@ Lista::Lista(ifstream& file)
         this->pos++;
         
     }
+
+    this->pos--;
+
+    cout << "Leitura de " << this->pos << " dados realizada com sucesso" << endl;
 }
 
 Lista::~Lista()
@@ -87,13 +92,28 @@ void Lista::max_heapify(No** vet, int i, int n)
     int l = i*2;
     int r = i*2+1;
 
-    if( l <= n && vet[l]->getEstado().compare(vet[i]->getEstado()) > 0 )
-        m = l;
-    else
-        m = r;
-    
-    if( r <= n && vet[r]->getEstado().compare(vet[m]->getEstado()) > 0 )
-        m = r;
+    // <-- ORDENA A HEAP DE ACORDO COM O ESTADO -> CIDADE -> DATA
+    if( l <= n )
+        if( vet[l]->getEstado().compare(vet[i]->getEstado()) > 0 )
+            m = l;
+        else if( vet[l]->getEstado().compare(vet[i]->getEstado()) == 0 )
+            if( vet[l]->getCidade().compare(vet[i]->getCidade()) > 0 )
+                m = l;
+            else if( vet[l]->getCidade().compare(vet[i]->getCidade()) == 0 )
+                if( vet[l]->getData().compare(vet[i]->getData()) > 0 )
+                    m = l;                
+
+    if( r <= n )
+        if( vet[r]->getEstado().compare(vet[m]->getEstado()) > 0 )
+            m = r;
+        else if( vet[r]->getEstado().compare(vet[m]->getEstado()) == 0 )
+            if( vet[r]->getCidade().compare(vet[m]->getCidade()) > 0 )
+                m = r;
+            else if( vet[r]->getCidade().compare(vet[m]->getCidade()) == 0 )
+                if( vet[r]->getData().compare(vet[m]->getData()) > 0 )
+                 m = r;
+        
+    // -->
 
     if( m != i )
     {
@@ -108,15 +128,17 @@ void Lista::max_heapify(No** vet, int i, int n)
 void Lista::heap_sort()
 {
 
-    this->max_heapify(this->vet, this->tam/2, this->tam);
+    // CONSTROI A HEAP
+    for( int i = this->pos/2; i >= 0; i-- )
+        this->max_heapify(this->vet, i, this->pos);
 
+    // ORDENA A HEAP
     for( int i = this->pos; i > 0; i-- )
     {
         No* aux = this->vet[0];
-        this->vet[0] = this->vet[this->pos];
-        this->vet[this->pos] = aux;
+        this->vet[0] = this->vet[i];
+        this->vet[i] = aux;
         this->max_heapify(this->vet, 0, i-1);
-        cout << "Iteração: " << i;
     }
 
 }
