@@ -31,7 +31,8 @@ Lista::Lista(ifstream& file)
      * INICIA AS VARIAVEIS DA CLASSE
     **/
     file.clear(ios_base::goodbit);
-    this->tam = size+1;
+    file.seekg(0, file.beg);
+    this->tam = size;
     this->pos = 0;
     this->vet = new No*[this->tam];
 

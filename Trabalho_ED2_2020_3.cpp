@@ -10,8 +10,8 @@ int main()
     ifstream file(fname);
     Lista* lista = new Lista(file);
 
-    //lista->heap_sort();
-    //lista->print();
+    lista->heap_sort();
+    lista->print();
 
     return 0;
 }
