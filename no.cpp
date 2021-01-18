@@ -5,12 +5,12 @@ using namespace std;
 class No
 {
     private:
-        string date;
-        string state;
-        string name;
-        string code;
-        float cases;
-        int deaths;
+        string data;
+        string estado;
+        string cidade;
+        string codigo;
+        float casos;
+        int mortes;
 
         No* prox_no;
         No* ant_no;
