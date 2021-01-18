@@ -20,19 +20,25 @@ Lista::Lista(ifstream& file)
     }
 
     /**
+     * ENCONTRA O NUMERO DE LINHAS DO ARQUIVO
+    **/
+    string line;
+    int size = 0;
+    while( getline(file,line) )
+        size++;        
+
+    /**
      * INICIA AS VARIAVEIS DA CLASSE
     **/
-   file.seekg(0,file.end);
-   this->tam = file.tellg();
-   file.seekg(0);
-   this->pos = 0;
-   this->vet = new No*[this->tam];
+    file.clear(ios_base::goodbit);
+    this->tam = size+1;
+    this->pos = 0;
+    this->vet = new No*[this->tam];
 
     /**
      * REALIZA A LEITURA DOS DADOS SALVANDO EM FORMA DE NÓS
      * ESSES NÓS SÃO OBJETOS QUE ARMAZENAM OS DADOS DE CADA CIDADE
     **/ 
-    string line;
     getline(file,line); // ( LÊ E JOGA A PRIMEIRA LINHA FORA )
 
     while( getline(file,line) ){
