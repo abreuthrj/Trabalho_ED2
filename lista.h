@@ -12,7 +12,7 @@ Lista::Lista(ifstream& file)
    //this->ultimo_no = nullptr;
    this->tam = 100000;
    this->pos = 0;
-   this->vet = new No[this->tam];
+   this->vet = new No*[this->tam];
 
     /**
      * VERIFICA SE ARQUIVO FOI ABERTO CORRETAMENTE
@@ -74,6 +74,6 @@ void Lista::printa_lista()
 {
     for( int i=0; i < this->pos; i++ )
     {
-        cout << this->vet[i].data << "," << this->vet[i].estado << "," << this->vet[i].cidade << "," << this->vet[i].codigo << "," << this->vet[i].casos << "," << this->vet[i].mortes;
+        cout << this->vet[i]->getData() << "," << this->vet[i]->getEstado() << "," << this->vet[i]->getCidade() << "," << this->vet[i]->getCodigo() << "," << this->vet[i]->getCasos() << "," << this->vet[i]->getMortes();
     }
 }
