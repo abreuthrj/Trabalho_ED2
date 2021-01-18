@@ -3,6 +3,10 @@
 
 using namespace std;
 
+/**
+ * @author Thiago de Oliveira Abreu 201965566C
+**/
+
 Lista::Lista(ifstream& file)
 {
 
@@ -75,4 +79,43 @@ void Lista::print()
     {
         cout << this->vet[i]->getData() << "," << this->vet[i]->getEstado() << "," << this->vet[i]->getCidade() << "," << this->vet[i]->getCodigo() << "," << this->vet[i]->getCasos() << "," << this->vet[i]->getMortes() << endl;;
     }
+}
+
+void Lista::max_heapify(No** vet, int i, int n)
+{
+    int m = i;
+    int l = i*2;
+    int r = i*2+1;
+
+    if( l <= n && vet[l]->getEstado().compare(vet[i]->getEstado()) > 0 )
+        m = l;
+    else
+        m = r;
+    
+    if( r <= n && vet[r]->getEstado().compare(vet[m]->getEstado()) > 0 )
+        m = r;
+
+    if( m != i )
+    {
+        No* aux = vet[m];
+        vet[m] = vet[i];
+        vet[i] = aux;
+        this->max_heapify(vet,m,n);
+    }
+    
+}
+
+void Lista::heap_sort()
+{
+
+    this->max_heapify(this->vet, this->tam/2, this->tam);
+
+    for( int i = this->pos; i > 0; i-- )
+    {
+        No* aux = this->vet[0]
+        this->vet[0] = this->vet[this->pos];
+        this->vet[this->pos] = aux;
+        this->max_heapify(this->vet, 0, i-1);
+    }
+
 }
