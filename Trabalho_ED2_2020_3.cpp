@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "lista.h"
+#include "interface.h"
 
 using namespace std;
 
@@ -10,8 +11,10 @@ int main()
     ifstream file(fname);
     Lista* lista = new Lista(file);
 
-    lista->heap_sort();
-    lista->print();
+    menu(lista);
+
+    // lista->heap_sort();
+    // lista->print();
 
     return 0;
 }

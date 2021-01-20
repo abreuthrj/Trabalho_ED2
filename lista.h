@@ -76,8 +76,6 @@ Lista::Lista(ifstream& file)
     }
 
     this->pos--;
-
-    cout << "Leitura de " << this->pos << " dados realizada com sucesso" << endl;
 }
 
 Lista::~Lista()
@@ -91,6 +89,11 @@ void Lista::print()
     {
         cout << this->vet[i]->getData() << "," << this->vet[i]->getEstado() << "," << this->vet[i]->getCidade() << "," << this->vet[i]->getCodigo() << "," << this->vet[i]->getCasos() << "," << this->vet[i]->getMortes() << endl;;
     }
+}
+
+void Lista::print_tamanho()
+{
+    cout << "A lista possui " << this->pos << " dados" << endl;
 }
 
 void Lista::max_heapify(No** vet, int i, int n)

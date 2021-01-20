@@ -12,6 +12,7 @@ class Lista
         Lista(ifstream& file);
         ~Lista();
 
-        void print();
         void heap_sort();
+        void print();
+        void print_tamanho();
 };
