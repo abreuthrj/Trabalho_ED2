@@ -1,3 +1,4 @@
+#include "lista.h"
 using namespace std;
 
 void print_menu();
@@ -42,11 +43,11 @@ void processa_menu(Lista* lista)
         case 't':
             lista->print_tamanho();
         break;
-        
+
         case 's':
             return;
         break;
-        
+
         default:
             goto naoentendi1;
     }
