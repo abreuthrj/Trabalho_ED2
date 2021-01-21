@@ -1,5 +1,7 @@
+#include <iomanip>
 #include "lista.h"
-#include "string"
+#include "string.h"
+#include <sstream>
 
 using namespace std;
 
@@ -151,4 +153,29 @@ void Lista::heap_sort()
         this->max_heapify(this->vet, 0, i-1);
     }
 
+}
+void Lista::save_to_csv(string filename){
+    /* Salva a lista no formato .csv
+     */
+    ofstream file(filename);
+    file  << "date,state,name,code,cases,deaths" << std::endl;
+    for(int i = 0; i < this->pos; i++){
+        file << this->no_to_line(this->vet[i]);
+    }
+    file.close();
+}
+string Lista::no_to_line(No* no){
+/* retorna uma string contendo:
+ * data,estado,nomeDaCidade,codigo,nCasos,mortes\n
+ * do Noh passado por parametro.
+ */
+    stringstream ss;
+    ss  << no->getData()   << ","
+        << no->getEstado() << ","
+        << no->getCidade() << ","
+        << std::fixed << std::setprecision(1) << no->getCodigo() << ","
+        << no->getCasos()  << ","
+        << no->getMortes()
+        << std::endl;
+    return ss.str();
 }

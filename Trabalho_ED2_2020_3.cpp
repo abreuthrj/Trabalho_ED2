@@ -10,6 +10,7 @@ int main()
     string fname = "brazil_covid19_cities.csv";
     ifstream file(fname);
     Lista* lista = new Lista(file);
+    lista->save_to_csv();
 
     menu(lista);
 
