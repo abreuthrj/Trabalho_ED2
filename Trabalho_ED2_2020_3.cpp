@@ -12,7 +12,6 @@ int main()
     Lista* lista = new Lista(file);
     Lista* listinha = lista->subListaAleatoria(1000);
     listinha->save_to_csv("testeSeTemIgual.csv");
-    listinha->print();
     lista->save_to_csv();
 
     menu(lista);
