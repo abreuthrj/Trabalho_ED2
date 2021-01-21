@@ -10,8 +10,10 @@ int main()
     string fname = "brazil_covid19_cities.csv";
     ifstream file(fname);
     Lista* lista = new Lista(file);
-    Lista* listinha = lista->subListaAleatoria(1000);
-    listinha->save_to_csv("testeSeTemIgual.csv");
+    Lista* listinha = lista->subListaAleatoria(100000);
+    // cout << "Salvando Listinha para csv...." << endl;
+    // listinha->save_to_csv("testeSeTemIgual.csv");
+    // cout << "Salvando Lista para csv...." << endl;
     lista->save_to_csv();
 
     menu(lista);

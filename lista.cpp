@@ -187,20 +187,22 @@ string Lista::no_to_line(No* no){
     return ss.str();
 }
 Lista* Lista::subListaAleatoria(int n){
-    srand(n); // claro que nao ta aleatorio, posteriormente vou mudar pra ir de acordo com o tempo
+    srand(n); // nao ta aleatorio, posteriormente vou mudar pra ir de acordo com o tempo
     int size = this->pos;
-    Lista* lista = new Lista(n*n*n);
-    std::vector<int> jaFoi;
+    Lista* lista = new Lista(n); // custo espacial elevado, ja que sao criadas duas listas de tamanho N;
+    int* jaFoi = new int[n];
+    int jaFoiSize = 0;
     int index;
     for(int i = 0; i < n; i++){
-        index = (rand()%(size - jaFoi.size())); // escolher um index aleatorio entre 0 e o numero de indexes nao escolhidos ainda. exemplo: se na lista tem 100 itens e ja foram escolhiidos 3, entao devo escolher entre os 97 restantes
+        index = (rand()%(size - jaFoiSize)); // escolher um index aleatorio entre 0 e o numero de indexes nao escolhidos ainda. exemplo: se na lista tem 100 itens e ja foram escolhiidos 3, entao devo escolher entre os 97 restantes
         // cout << index;
-        for(int j = 0; j < jaFoi.size(); j++){
+        for(int j = 0; j < jaFoiSize; j++){
             if(i >= jaFoi[j]){
                 index++;
             }
         }
-        jaFoi.push_back(index);
+        jaFoi[jaFoiSize] = index; // seria valido criar um TAD para esse tipo de vetor dinamico, mas por enquanto soh esta sendo utilizado aqui.
+        jaFoiSize++;
         lista->append(this->vet[index]);
     }
     return lista;
