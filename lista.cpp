@@ -1,3 +1,4 @@
+#include <vector>
 #include <iomanip>
 #include "lista.h"
 #include "string.h"
@@ -9,6 +10,12 @@ using namespace std;
  * @author Thiago de Oliveira Abreu 201965566C
 **/
 
+Lista::Lista(int size){
+    this->tam = size;
+    this->pos = 0;
+    this->vet = new No*[this->tam];
+
+}
 Lista::Lista(ifstream& file)
 {
 
@@ -178,4 +185,30 @@ string Lista::no_to_line(No* no){
         << no->getMortes()
         << std::endl;
     return ss.str();
+}
+Lista* Lista::subListaAleatoria(int n){
+    srand(n); // claro que nao ta aleatorio, posteriormente vou mudar pra ir de acordo com o tempo
+    int size = this->pos;
+    Lista* lista = new Lista(n*n*n);
+    std::vector<int> jaFoi;
+    int index;
+    for(int i = 0; i < n; i++){
+        index = (rand()%(size - jaFoi.size())); // escolher um index aleatorio entre 0 e o numero de indexes nao escolhidos ainda. exemplo: se na lista tem 100 itens e ja foram escolhiidos 3, entao devo escolher entre os 97 restantes
+        // cout << index;
+        for(int j = 0; j < jaFoi.size(); j++){
+            if(i >= jaFoi[j]){
+                index++;
+            }
+        }
+        jaFoi.push_back(index);
+        lista->append(this->vet[index]);
+    }
+    return lista;
+}
+int Lista::append(No* no){
+    if(this->pos >= this->tam)
+        return -1;
+    this->vet[pos] = no;
+    this->pos++;
+    return 0;
 }
