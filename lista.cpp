@@ -12,6 +12,8 @@ using namespace std;
 
 Lista::Lista(int size){
     this->tam = size;
+    this->pos = 0;
+    this->vet = new No*[size];
 }
 
 Lista::Lista(ifstream& file)
@@ -148,7 +150,7 @@ void Lista::heap_sort()
 void Lista::save_to_csv(string filename){
     /* Salva a lista no formato .csv
      */
-    ofstream file(filename);
+    ofstream file(filename+".csv");
     file  << "date,state,name,code,cases,deaths" << std::endl;
     for(int i = 0; i < this->tam; i++){
         file << this->no_to_line(this->vet[i]);
@@ -179,7 +181,6 @@ Lista* Lista::subListaAleatoria(int n){
     int index;
     for(int i = 0; i < n; i++){
         index = (rand()%(size - jaFoiSize)); // escolher um index aleatorio entre 0 e o numero de indexes nao escolhidos ainda. exemplo: se na lista tem 100 itens e ja foram escolhiidos 3, entao devo escolher entre os 97 restantes
-        // cout << index;
         for(int j = 0; j < jaFoiSize; j++){
             if(i >= jaFoi[j]){
                 index++;
@@ -189,7 +190,6 @@ Lista* Lista::subListaAleatoria(int n){
         jaFoiSize++;
         lista->append(this->vet[index]);
     }
-    lista->setTam();
     return lista;
 }
 int Lista::append(No* no){
@@ -199,8 +199,4 @@ int Lista::append(No* no){
     this->pos++;
     //this->vet.push_back( no );
     return 0;
-}
-void Lista::setTam()
-{
-    //this->tam = this->vet.size();
 }

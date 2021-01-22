@@ -21,7 +21,6 @@ class Lista
         ~Lista();
         void heap_sort();
         int append(No* no);
-        void setTam();
         void save_to_csv(string filename);
         Lista* subListaAleatoria(int n);
         void print();
