@@ -2,17 +2,17 @@
 using namespace std;
 
 void print_menu();
-void processa_menu(Lista* lista);
+void processa_menu(Lista* lista, Lista* sublista);
 
 /**
  * Implementação da interface e da funcionalidade do menu
  * @author Thiago de Oliveira Abreu
 **/
 
-void menu(Lista* lista)
+void menu(Lista* lista, Lista* sublista)
 {
     print_menu();
-    processa_menu(lista);
+    processa_menu(lista,sublista);
 }
 
 void print_menu()
@@ -24,7 +24,7 @@ void print_menu()
     cout << "s - Fechar programa" << endl;
 }
 
-void processa_menu(Lista* lista)
+void processa_menu(Lista* lista, Lista* sublista)
 {
     char comando;
     naoentendi1:
@@ -41,7 +41,7 @@ void processa_menu(Lista* lista)
         break;
 
         case 't':
-            lista->print_tamanho();
+            cout << "A lista possui " << lista->get_tamanho() << " dados." << endl;
         break;
 
         case 's':
@@ -59,7 +59,7 @@ void processa_menu(Lista* lista)
     switch( comando )
     {
         case 's':
-            menu(lista);
+            menu(lista,sublista);
         break;
 
         case 'n':

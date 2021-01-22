@@ -29,7 +29,14 @@ Lista::Lista(ifstream& file)
     /**
      * INICIA AS VARIAVEIS DA CLASSE
     **/
-   string line;
+    string line;
+    this->tam = 0;
+    this->pos = 0;
+    while( getline(file,line) )
+        this->tam++;
+    this->vet = new No*[this->tam];
+    file.clear(ios_base::goodbit);
+    file.seekg(0, file.beg);
 
     /**
      * REALIZA A LEITURA DOS DADOS SALVANDO EM FORMA DE NÓS
@@ -57,11 +64,15 @@ Lista::Lista(ifstream& file)
 
         int mortes = stoi(line_aux.substr(0, line_aux.find(',')));
 
-        vet.push_back( new No(data,estado,cidade,codigo,casos,mortes) );
+        //vet.push_back( new No(data,estado,cidade,codigo,casos,mortes) );
+        this->vet[this->pos] = new No(data,estado,cidade,codigo,casos,mortes);
 
+        this->pos++;
     }
 
-    this->tam = vet.size();
+    this->pos --;
+
+    //this->tam = vet.size();
 }
 
 Lista::~Lista()
@@ -77,12 +88,7 @@ void Lista::print()
     }
 }
 
-void Lista::print_tamanho()
-{
-    cout << "A lista possui " << this->tam << " dados" << endl;
-}
-
-void Lista::max_heapify(vector<No*> vet, int i, int n)
+void Lista::max_heapify(No** vet, int i, int n)
 {
     int m = i;
     int l = i*2;
@@ -110,6 +116,7 @@ void Lista::max_heapify(vector<No*> vet, int i, int n)
                  m = r;
 
     // -->
+    //cout << "heapify loop: " << m << endl;
 
     if( m != i )
     {
@@ -125,11 +132,11 @@ void Lista::heap_sort()
 {
 
     // CONSTROI A HEAP
-    for( int i = this->tam/2; i >= 0; i-- )
-        this->max_heapify(this->vet, i, this->tam);
+    for( int i = this->pos/2; i >= 0; i-- )
+        this->max_heapify(this->vet, i, this->pos);
 
     // ORDENA A HEAP
-    for( int i = this->tam; i > 0; i-- )
+    for( int i = this->pos; i > 0; i-- )
     {
         No* aux = this->vet[0];
         this->vet[0] = this->vet[i];
@@ -186,12 +193,14 @@ Lista* Lista::subListaAleatoria(int n){
     return lista;
 }
 int Lista::append(No* no){
-    if(this->tam >= this->tam)
+    if(this->pos >= this->tam)
         return -1;
-    this->vet.push_back( no );
+    this->vet[pos] = no;
+    this->pos++;
+    //this->vet.push_back( no );
     return 0;
 }
 void Lista::setTam()
 {
-    this->tam = this->vet.size();
+    //this->tam = this->vet.size();
 }
