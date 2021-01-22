@@ -30,7 +30,7 @@ Lista::Lista(ifstream& file)
      * INICIA AS VARIAVEIS DA CLASSE
     **/
     string line;
-    this->tam = 0;
+    this->tam = -1;
     this->pos = 0;
     while( getline(file,line) )
         this->tam++;
