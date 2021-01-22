@@ -12,10 +12,8 @@ using namespace std;
 
 Lista::Lista(int size){
     this->tam = size;
-    this->pos = 0;
-    this->vet = new No*[this->tam];
-
 }
+
 Lista::Lista(ifstream& file)
 {
 
@@ -29,21 +27,9 @@ Lista::Lista(ifstream& file)
     }
 
     /**
-     * ENCONTRA O NUMERO DE LINHAS DO ARQUIVO
-    **/
-    string line;
-    int size = 0;
-    while( getline(file,line) )
-        size++;
-
-    /**
      * INICIA AS VARIAVEIS DA CLASSE
     **/
-    file.clear(ios_base::goodbit);
-    file.seekg(0, file.beg);
-    this->tam = size;
-    this->pos = 0;
-    this->vet = new No*[this->tam];
+   string line;
 
     /**
      * REALIZA A LEITURA DOS DADOS SALVANDO EM FORMA DE NÓS
@@ -52,13 +38,6 @@ Lista::Lista(ifstream& file)
     getline(file,line); // ( LÊ E JOGA A PRIMEIRA LINHA FORA )
 
     while( getline(file,line) ){
-        if( this->pos >= this->tam )
-        {
-            this->pos++;
-            cout << "Maximo de dados suportados pela lista atingido" << endl;
-            break;
-        }
-
         string line_aux = line;
 
         string data = line_aux.substr(0, line_aux.find(','));
@@ -78,23 +57,21 @@ Lista::Lista(ifstream& file)
 
         int mortes = stoi(line_aux.substr(0, line_aux.find(',')));
 
-        this->vet[this->pos] = new No(data,estado,cidade,codigo,casos,mortes);
-
-        this->pos++;
+        vet.push_back( new No(data,estado,cidade,codigo,casos,mortes) );
 
     }
 
-    this->pos--;
+    this->tam = vet.size();
 }
 
 Lista::~Lista()
 {
-    delete [] this->vet;
+
 }
 
 void Lista::print()
 {
-    for( int i=0; i < this->pos; i++ )
+    for( int i=0; i < this->tam; i++ )
     {
         cout << this->vet[i]->getData() << "," << this->vet[i]->getEstado() << "," << this->vet[i]->getCidade() << "," << this->vet[i]->getCodigo() << "," << this->vet[i]->getCasos() << "," << this->vet[i]->getMortes() << endl;;
     }
@@ -102,10 +79,10 @@ void Lista::print()
 
 void Lista::print_tamanho()
 {
-    cout << "A lista possui " << this->pos << " dados" << endl;
+    cout << "A lista possui " << this->tam << " dados" << endl;
 }
 
-void Lista::max_heapify(No** vet, int i, int n)
+void Lista::max_heapify(vector<No*> vet, int i, int n)
 {
     int m = i;
     int l = i*2;
@@ -148,11 +125,11 @@ void Lista::heap_sort()
 {
 
     // CONSTROI A HEAP
-    for( int i = this->pos/2; i >= 0; i-- )
-        this->max_heapify(this->vet, i, this->pos);
+    for( int i = this->tam/2; i >= 0; i-- )
+        this->max_heapify(this->vet, i, this->tam);
 
     // ORDENA A HEAP
-    for( int i = this->pos; i > 0; i-- )
+    for( int i = this->tam; i > 0; i-- )
     {
         No* aux = this->vet[0];
         this->vet[0] = this->vet[i];
@@ -166,7 +143,7 @@ void Lista::save_to_csv(string filename){
      */
     ofstream file(filename);
     file  << "date,state,name,code,cases,deaths" << std::endl;
-    for(int i = 0; i < this->pos; i++){
+    for(int i = 0; i < this->tam; i++){
         file << this->no_to_line(this->vet[i]);
     }
     file.close();
@@ -188,7 +165,7 @@ string Lista::no_to_line(No* no){
 }
 Lista* Lista::subListaAleatoria(int n){
     srand(n); // nao ta aleatorio, posteriormente vou mudar pra ir de acordo com o tempo
-    int size = this->pos;
+    int size = this->tam;
     Lista* lista = new Lista(n); // custo espacial elevado, ja que sao criadas duas listas de tamanho N;
     int* jaFoi = new int[n];
     int jaFoiSize = 0;
@@ -205,12 +182,16 @@ Lista* Lista::subListaAleatoria(int n){
         jaFoiSize++;
         lista->append(this->vet[index]);
     }
+    lista->setTam();
     return lista;
 }
 int Lista::append(No* no){
-    if(this->pos >= this->tam)
+    if(this->tam >= this->tam)
         return -1;
-    this->vet[pos] = no;
-    this->pos++;
+    this->vet.push_back( no );
     return 0;
+}
+void Lista::setTam()
+{
+    this->tam = this->vet.size();
 }
