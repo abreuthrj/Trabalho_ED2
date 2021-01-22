@@ -20,7 +20,7 @@ void print_menu()
     cout << "== Interface de Apoio ===" << endl;
     cout << "a - Armazenar a lista/sublista em arquivo .csv" << endl;
     cout << "g - Gerar sublista de N dados aleatórios" << endl;
-    cout << "h - Ordenar lista com HeapSort" << endl;
+    cout << "h - Ordenar lista com HeapSort ( estado->cidade->data )" << endl;
     cout << "p - Printar lista (Esse processo pode demorar alguns minutos)" << endl;
     cout << "t - Printar tamanho da lista" << endl;
     cout << "s - Fechar programa" << endl;

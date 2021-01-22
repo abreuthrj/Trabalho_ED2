@@ -3,6 +3,7 @@
 #include "lista.h"
 #include "string.h"
 #include <sstream>
+#include <chrono>
 
 using namespace std;
 
@@ -90,7 +91,7 @@ void Lista::print()
     }
 }
 
-void Lista::max_heapify(No** vet, int i, int n)
+void Lista::max_heapify(No** vet, int i, int n, int& comps, int& movs)
 {
     int m = i;
     int l = i*2;
@@ -98,44 +99,85 @@ void Lista::max_heapify(No** vet, int i, int n)
 
     // <-- ORDENA A HEAP DE ACORDO COM O ESTADO -> CIDADE -> DATA
     if( l <= n )
+    {
+        comps++;
         if( vet[l]->getEstado().compare(vet[i]->getEstado()) > 0 )
+        {
             m = l;
+            comps++;
+        }
         else if( vet[l]->getEstado().compare(vet[i]->getEstado()) == 0 )
+        {
+            comps++;
             if( vet[l]->getCidade().compare(vet[i]->getCidade()) > 0 )
+            {
+                comps++;
                 m = l;
+            }
             else if( vet[l]->getCidade().compare(vet[i]->getCidade()) == 0 )
+            {
+                comps++;
                 if( vet[l]->getData().compare(vet[i]->getData()) > 0 )
+                {
+                    comps++;
                     m = l;
+                }
+            }
+        }
+    }
 
     if( r <= n )
+    {
+        comps++;
         if( vet[r]->getEstado().compare(vet[m]->getEstado()) > 0 )
+        {
+            comps++;
             m = r;
+        }
         else if( vet[r]->getEstado().compare(vet[m]->getEstado()) == 0 )
+        {
+            comps++;
             if( vet[r]->getCidade().compare(vet[m]->getCidade()) > 0 )
+            {
+                comps++;
                 m = r;
+            }
             else if( vet[r]->getCidade().compare(vet[m]->getCidade()) == 0 )
+            {
+                comps++;
                 if( vet[r]->getData().compare(vet[m]->getData()) > 0 )
-                 m = r;
+                {
+                    comps++;
+                    m = r;
+                }
+            }
+        }
+    }
+            
 
     // -->
     //cout << "heapify loop: " << m << endl;
 
     if( m != i )
     {
+        comps++;
         No* aux = vet[m];
         vet[m] = vet[i];
         vet[i] = aux;
-        this->max_heapify(vet,m,n);
+        movs++;
+        this->max_heapify(vet,m,n,comps,movs);
     }
 
 }
 
 void Lista::heap_sort()
 {
+    int comp, movs = 0;
 
+    auto ts = chrono::high_resolution_clock::now();
     // CONSTROI A HEAP
     for( int i = this->pos/2; i >= 0; i-- )
-        this->max_heapify(this->vet, i, this->pos);
+        this->max_heapify(this->vet, i, this->pos, comp, movs);
 
     // ORDENA A HEAP
     for( int i = this->pos; i > 0; i-- )
@@ -143,8 +185,13 @@ void Lista::heap_sort()
         No* aux = this->vet[0];
         this->vet[0] = this->vet[i];
         this->vet[i] = aux;
-        this->max_heapify(this->vet, 0, i-1);
+        this->max_heapify(this->vet, 0, i-1, comp, movs);
     }
+    auto te = chrono::high_resolution_clock::now();
+
+    cout << "Tempo de execução: " << chrono::duration_cast<chrono::milliseconds>(te-ts).count() << " ms" << endl;
+    cout << "Número de comparações: " << comp << endl;
+    cout << "Número de movimentações de chaves: " << movs << endl;
 
 }
 void Lista::save_to_csv(string filename){

@@ -14,7 +14,7 @@ class Lista
         int pos;
         No** vet;
         string no_to_line(No* no);
-        void max_heapify(No** vet, int i, int n);
+        void max_heapify(No** vet, int i, int n, int& comps, int& movs);
     public:
         Lista(ifstream& file);
         Lista(int size);
