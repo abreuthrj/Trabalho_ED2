@@ -200,6 +200,8 @@ void Lista::cases_to_daily()
     for( int i = 1; i<this->tam; i++ )
         if( this->vet[i]->getCidade().compare(this->vet[i-1]->getCidade()) == 0 )
             this->vet[i]->setCasos( this->vet[i]->getCasos()-this->vet[i-1]->getCasos() );
+
+    
 }
 
 /**

@@ -1,8 +1,8 @@
 #include "lista.h"
 using namespace std;
 
-void print_menu();
-void processa_menu(Lista* lista, Lista* sublista);
+void print_menu(bool& lista);
+void processa_menu(Lista* lista, Lista* sublista, bool& isLista);
 
 /**
  * Implementação da interface e da funcionalidade do menu
@@ -11,22 +11,26 @@ void processa_menu(Lista* lista, Lista* sublista);
 
 void menu(Lista* lista, Lista* sublista)
 {
-    print_menu();
-    processa_menu(lista,sublista);
+    bool isLista = true;
+    print_menu(isLista);
+    processa_menu(lista,sublista,isLista);
 }
 
-void print_menu()
+void print_menu(bool& lista)
 {
     cout << "== Interface de Apoio ===" << endl;
+    cout << "= Você está mexendo com: " << ( lista ? "Lista":"Sublista" ) << " digite [/] para alternar" << endl;
     cout << "a - Armazenar a lista/sublista em arquivo .csv" << endl;
     cout << "g - Gerar sublista de N dados aleatórios" << endl;
-    cout << "h - Ordenar lista com HeapSort ( estado->cidade->data )" << endl;
+    cout << "h - Ordenar lista com HeapSort" << endl;
+    cout << "q - Ordenar lista com QuickSort ( Em Breve )" << endl;
+    cout << "x - Ordenar lista com ????????? ( Em Breve )" << endl;
     cout << "p - Printar lista (Esse processo pode demorar alguns minutos)" << endl;
     cout << "t - Printar tamanho da lista" << endl;
     cout << "s - Fechar programa" << endl;
 }
 
-void processa_menu(Lista* lista, Lista* sublista)
+void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
 {
     char comando;
     string arq_saida;
@@ -72,6 +76,10 @@ void processa_menu(Lista* lista, Lista* sublista)
 
         case 's':
             return;
+        break;
+
+        case '/':
+            isLista = !isLista;
         break;
 
         default:
