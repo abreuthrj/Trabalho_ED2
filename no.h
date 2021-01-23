@@ -28,5 +28,6 @@ class No
         string getCidade(){ return this->cidade; }
         float getCodigo(){ return this->codigo; }
         int getCasos(){ return this->casos; }
+        void setCasos(int casos){ this->casos = casos; }
         int getMortes(){ return this->mortes; }
 };

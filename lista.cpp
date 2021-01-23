@@ -11,12 +11,6 @@ using namespace std;
  * @author Thiago de Oliveira Abreu 201965566C
 **/
 
-Lista::Lista(int size){
-    this->tam = size;
-    this->pos = 0;
-    this->vet = new No*[size];
-}
-
 Lista::Lista(ifstream& file)
 {
 
@@ -189,11 +183,34 @@ void Lista::heap_sort()
     }
     auto te = chrono::high_resolution_clock::now();
 
-    cout << "Tempo de execução: " << chrono::duration_cast<chrono::milliseconds>(te-ts).count() << " ms" << endl;
+    cout << "==( HeapSort )==" << endl;
+    cout << "Tempo de execução : " << chrono::duration_cast<chrono::milliseconds>(te-ts).count() << " ms" << endl;
     cout << "Número de comparações: " << comp << endl;
     cout << "Número de movimentações de chaves: " << movs << endl;
+    cout << "== ( Fim )==" << endl;
 
 }
+
+void Lista::cases_to_daily()
+{
+    /**
+     * RODA O VETOR A PARTIR DO SEGUNDO NÓ TRANSFORMANDO O NUMERO DE CASOS EM NUMERO DE CASOS DIARIOS
+     * VERIFICA, TAMBÉM, ANTES DE REALIZAR A MUDANÇA, SE A RESPECTIVA CIDADE É A MESMA DA ANTERIOR
+     **/
+    for( int i = 1; i<this->tam; i++ )
+        if( this->vet[i]->getCidade().compare(this->vet[i-1]->getCidade()) == 0 )
+            this->vet[i]->setCasos( this->vet[i]->getCasos()-this->vet[i-1]->getCasos() );
+}
+
+/**
+ * @author Samuel Abreu
+**/
+Lista::Lista(int size){
+    this->tam = size;
+    this->pos = 0;
+    this->vet = new No*[size];
+}
+
 void Lista::save_to_csv(string filename){
     /* Salva a lista no formato .csv
      */
