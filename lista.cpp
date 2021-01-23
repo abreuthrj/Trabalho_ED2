@@ -67,8 +67,6 @@ Lista::Lista(ifstream& file)
         this->pos++;
     }
 
-    this->pos --;
-
     //this->tam = vet.size();
 }
 
@@ -170,11 +168,11 @@ void Lista::heap_sort()
 
     auto ts = chrono::high_resolution_clock::now();
     // CONSTROI A HEAP
-    for( int i = this->pos/2; i >= 0; i-- )
-        this->max_heapify(this->vet, i, this->pos, comp, movs);
+    for( int i = (this->tam-1)/2; i >= 0; i-- )
+        this->max_heapify(this->vet, i, (this->tam-1), comp, movs);
 
     // ORDENA A HEAP
-    for( int i = this->pos; i > 0; i-- )
+    for( int i = (this->tam-1); i > 0; i-- )
     {
         No* aux = this->vet[0];
         this->vet[0] = this->vet[i];

@@ -9,9 +9,8 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista);
  * @author Thiago de Oliveira Abreu
 **/
 
-void menu(Lista* lista, Lista* sublista)
+void menu(Lista* lista, Lista* sublista, bool isLista=true)
 {
-    bool isLista = true;
     print_menu(isLista);
     processa_menu(lista,sublista,isLista);
 }
@@ -19,12 +18,12 @@ void menu(Lista* lista, Lista* sublista)
 void print_menu(bool& lista)
 {
     cout << "== Interface de Apoio ===" << endl;
-    cout << "= Você está mexendo com: " << ( lista ? "Lista":"Sublista" ) << " digite [/] para alternar" << endl;
-    cout << "a - Armazenar a lista/sublista em arquivo .csv" << endl;
+    cout << "Selecionada: " << ( lista ? "Lista":"Sublista" ) << " - [/] para alternar" << endl << endl;
+    cout << "a - Armazenar em arquivo .csv" << endl;
     cout << "g - Gerar sublista de N dados aleatórios" << endl;
-    cout << "h - Ordenar lista com HeapSort" << endl;
-    cout << "q - Ordenar lista com QuickSort ( Em Breve )" << endl;
-    cout << "x - Ordenar lista com ????????? ( Em Breve )" << endl;
+    cout << "h - Ordenar com HeapSort" << endl;
+    cout << "q - Ordenar com QuickSort ( Em Breve )" << endl;
+    cout << "x - Ordenar com ????????? ( Em Breve )" << endl;
     cout << "p - Printar lista (Esse processo pode demorar alguns minutos)" << endl;
     cout << "t - Printar tamanho da lista" << endl;
     cout << "s - Fechar programa" << endl;
@@ -34,37 +33,29 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
 {
     char comando;
     string arq_saida;
+    Lista* selecionada = ( isLista ? lista:sublista );
+
     naoentendi1:
     cin >> comando;
 
     switch( comando )
     {
         case 'h':
-            lista->heap_sort();
+            selecionada->heap_sort();
         break;
 
         case 'p':
-            lista->print();
+            selecionada->print();
         break;
 
         case 't':
-            cout << "A lista possui " << lista->get_tamanho() << " dados." << endl;
+            cout << "A lista possui " << selecionada->get_tamanho() << " dados." << endl;
         break;
 
         case 'a':
-            aerror:
-            cout << "Digite se deseja salvar a lista ou a sublista [l/s]: ";
-            cin >> comando;
-            if( comando != 's' && comando != 'l' ) goto aerror;
-            if( comando == 's' && sublista == nullptr )
-            {
-                cout << "Voce não gerou nenhuma sublista" << endl;
-                break;
-            }
             cout << "Digite o nome do arquivo a ser salvo: ";
             cin >> arq_saida;
-            if( comando == 'l' ) lista->save_to_csv(arq_saida);
-            else sublista->save_to_csv(arq_saida);
+            selecionada->save_to_csv(arq_saida);
         break;
 
         case 'g':
@@ -79,7 +70,14 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
         break;
 
         case '/':
+            if( isLista && sublista == nullptr )
+            {
+                cout << "É necessário gerar uma Sublista [g] antes de selecioná-la" << endl;
+                goto naoentendi1;
+            }
             isLista = !isLista;
+            menu(lista,sublista,isLista);
+            return;
         break;
 
         default:
@@ -93,7 +91,7 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
     switch( comando )
     {
         case 's':
-            menu(lista,sublista);
+            menu(lista,sublista,isLista);
         break;
 
         case 'n':
