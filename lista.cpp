@@ -13,6 +13,7 @@ using namespace std;
 
 Lista::Lista(ifstream& file)
 {
+    srand(time(NULL));
 
     /**
      * VERIFICA SE ARQUIVO FOI ABERTO CORRETAMENTE
@@ -145,7 +146,7 @@ void Lista::max_heapify(No** vet, int i, int n, int& comps, int& movs)
             }
         }
     }
-            
+
 
     // -->
     //cout << "heapify loop: " << m << endl;
@@ -199,7 +200,7 @@ void Lista::cases_to_daily()
         if( this->vet[i]->getCidade().compare(this->vet[i-1]->getCidade()) == 0 )
             this->vet[i]->setCasos( this->vet[i]->getCasos()-this->vet[i-1]->getCasos() );
 
-    
+
 }
 
 /**
@@ -236,8 +237,8 @@ string Lista::no_to_line(No* no){
         << std::endl;
     return ss.str();
 }
-Lista* Lista::subListaAleatoria(int n){
-    srand(n); // nao ta aleatorio, posteriormente vou mudar pra ir de acordo com o tempo
+Lista* Lista::subListaAleatoriaOld(int n){
+    //mantive essa versao antiga (O(n^2)) para fins ilustrativos
     int size = this->tam;
     Lista* lista = new Lista(n); // custo espacial elevado, ja que sao criadas duas listas de tamanho N;
     int* jaFoi = new int[n];
@@ -253,6 +254,30 @@ Lista* Lista::subListaAleatoria(int n){
         jaFoi[jaFoiSize] = index; // seria valido criar um TAD para esse tipo de vetor dinamico, mas por enquanto soh esta sendo utilizado aqui.
         jaFoiSize++;
         lista->append(this->vet[index]);
+    }
+    return lista;
+}
+Lista* Lista::subListaAleatoria(int n){
+    /* cria um vetor I que armazena os indices do vetor da lista.
+     * Para cada elemento j desse vetor I,
+     *  gera um numero aleatorio 'r' entre j e o tamanho do vetor da lista ---> [j, tamanho)
+     *  e troca I[j] com I[r];
+     * cria uma sublista e tamanho n
+     * e por fim adiciona os primeiros n elementos na sublista
+     */
+    int size = this->pos;
+    Lista* lista = new Lista(n); // custo espacial elevado, ja que sao criadas duas listas de tamanho N;
+    int index, aux;
+    int* shuffledIndices = new int[this->pos];
+    for(int i = 0; i < this->pos; i++){
+        shuffledIndices[i] = i;
+    }
+    for(int i = 0; i < n; i++){
+        index = rand()%(size - i) + i;
+        aux = shuffledIndices[i];
+        shuffledIndices[i] = shuffledIndices[index];
+        lista->append(this->vet[shuffledIndices[i]]);
+        shuffledIndices[index] = aux;
     }
     return lista;
 }

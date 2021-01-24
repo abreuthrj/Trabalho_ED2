@@ -30,6 +30,7 @@ class Lista
         int append(No* no);
         void save_to_csv(string filename);
         Lista* subListaAleatoria(int n);
+        Lista* subListaAleatoriaOld(int n);
 };
 
 #endif

@@ -13,8 +13,8 @@ int main(int argc, char** argv)
     **/
     string fname = "brazil_covid19_cities.csv";
     if( argc > 1 )
-        fname = argv[1]; 
-    
+        fname = argv[1];
+
     /**
      * Le arquivos e inicializa variaveis da lista
     **/
@@ -26,6 +26,7 @@ int main(int argc, char** argv)
     auto t2 = chrono::high_resolution_clock::now();
     cout << "Tempo do algorítmo de leitura: " << chrono::duration_cast<chrono::milliseconds>(t2-t1).count() << " ms" << endl;
     Lista* sublista = nullptr;
+    //sublista = lista->subListaAleatoria(1.4e6);
 
     /**
      * Realiza ETAPA 01
