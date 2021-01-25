@@ -29,6 +29,16 @@ int main(int argc, char** argv)
     //sublista = lista->subListaAleatoria(1.4e6);
 
     /**
+     * Inicializa Menu
+    **/
+    menu(lista,sublista);
+
+    return 0;
+}
+
+void etapa01(Lista* lista)
+{
+    /**
      * Realiza ETAPA 01
     **/
     cout << "Aguarde, processando Etapa 01" << endl;
@@ -37,16 +47,9 @@ int main(int argc, char** argv)
     cout << "Casos -> Casos diários..." << endl;
     lista->cases_to_daily();
     cout << "Salvando..." << endl;
-    t1 = chrono::high_resolution_clock::now();
+    auto t1 = chrono::high_resolution_clock::now();
     lista->save_to_csv("brazil_covid19_cities_processado");
-    t2 = chrono::high_resolution_clock::now();
+    auto t2 = chrono::high_resolution_clock::now();
     cout << "Tempo do alogritmo de salvar: " << chrono::duration_cast<chrono::milliseconds>(t2-t1).count() << " ms" << endl;
     cout << endl;
-
-    /**
-     * Inicializa Menu
-    **/
-    menu(lista,sublista);
-
-    return 0;
 }

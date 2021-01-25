@@ -3,6 +3,7 @@ using namespace std;
 
 void print_menu(bool& lista);
 void processa_menu(Lista* lista, Lista* sublista, bool& isLista);
+void etapa01(Lista* lista);
 
 /**
  * Implementação da interface e da funcionalidade do menu
@@ -18,6 +19,10 @@ void menu(Lista* lista, Lista* sublista, bool isLista=true)
 void print_menu(bool& lista)
 {
     cout << "== Interface de Apoio ===" << endl;
+    cout << "Etapas" << endl;
+    cout << "f - Realizar etapa 01" << endl;
+    cout << "e - Realizar etapa 02" << endl;
+    cout << endl;
     cout << "Selecionada: " << ( lista ? "Lista":"Sublista" ) << " - [/] para alternar" << endl << endl;
     cout << "a - Armazenar em arquivo .csv" << endl;
     cout << "g - Gerar sublista de N dados aleatórios" << endl;
@@ -63,6 +68,24 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
             cout << "Digite o valor de N: ";
             cin >> n;
             sublista = lista->subListaAleatoria(n);
+        break;
+
+        case 'e':
+            int mtimes,ndata;
+            char alg;
+            cout << "Digite o valor de N ( Número de dados aleatórios ): ";
+            cin >> ndata;
+            cout << "Digite o valor de M ( Número de vezes a ser ordenado ): ";
+            cin >> mtimes;
+            cout << "Digite o algoritmo de ordenação [h/q/x]: ";
+            cin >> alg;
+            cout << "Digite o nome do arquivo de saida (.txt): ";
+            cin >> arq_saida;
+            selecionada->analisa_algoritmo(alg,ndata,mtimes,arq_saida);
+        break;
+
+        case 'f': 
+            etapa01(lista);
         break;
 
         case 's':

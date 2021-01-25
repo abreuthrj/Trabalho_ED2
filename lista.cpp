@@ -182,12 +182,35 @@ void Lista::heap_sort()
     }
     auto te = chrono::high_resolution_clock::now();
 
+    int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
+
     cout << "==( HeapSort )==" << endl;
-    cout << "Tempo de execução : " << chrono::duration_cast<chrono::milliseconds>(te-ts).count() << " ms" << endl;
+    cout << "Tempo de execução : " << duration << " ms" << endl;
     cout << "Número de comparações: " << comp << endl;
     cout << "Número de movimentações de chaves: " << movs << endl;
     cout << "== ( Fim )==" << endl;
+}
 
+void Lista::heap_sort(int& time, int& comp, int& mov)
+{
+    auto ts = chrono::high_resolution_clock::now();
+    // CONSTROI A HEAP
+    for( int i = (this->tam-1)/2; i >= 0; i-- )
+        this->max_heapify(this->vet, i, (this->tam-1), comp, mov);
+
+    // ORDENA A HEAP
+    for( int i = (this->tam-1); i > 0; i-- )
+    {
+        No* aux = this->vet[0];
+        this->vet[0] = this->vet[i];
+        this->vet[i] = aux;
+        this->max_heapify(this->vet, 0, i-1, comp, mov);
+    }
+    auto te = chrono::high_resolution_clock::now();
+
+    int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
+    
+    time = duration;
 }
 
 void Lista::cases_to_daily()
@@ -200,6 +223,55 @@ void Lista::cases_to_daily()
         if( this->vet[i]->getCidade().compare(this->vet[i-1]->getCidade()) == 0 )
             this->vet[i]->setCasos( this->vet[i]->getCasos()-this->vet[i-1]->getCasos() );
 
+
+}
+
+void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "saida")
+{
+    /**
+     * Cria M sublistas aleatórias, baseadas na atual lista já pré processada
+     * A cada sublista criada, realiza a ordenação com o algoritmo especificado
+     * Computa os dados individuais de cada ordenação e suas médias
+     * Salva esses dados no arquivo saida.txt
+     **/
+    int time, comparations, movements;
+    float* individuais = new float[m*3];
+    float* medias = new float[3];
+    Lista* sublista;
+
+    medias[0] = medias[1] = medias[2] = 0;
+
+    for( int i = 0; i<m*3; i++ )
+        individuais[i] = 0;
+
+    for( int i=0; i<m*3; i+=3 )
+    {
+        time = comparations = movements = 0;
+        sublista = this->subListaAleatoria(n);
+        if( algoritmo == 'h' ) sublista->heap_sort(time,comparations,movements);
+        else if( algoritmo == 'q' ) ;
+        else if( algoritmo == 'h' ) ;
+        individuais[i] = time;
+        individuais[i+1] = comparations;
+        individuais[i+2] = movements;
+        medias[0] += time;
+        medias[1] += comparations;
+        medias[2] += movements;
+        cout << "M[" << (i/3)+1 << "] concluido" << endl;
+    }
+
+    medias[0] /= m;
+    medias[1] /= m;
+    medias[2] /= m;
+
+    ofstream arq_saida(arq_nome+".txt");
+
+    for( int i=0; i < m*3; i+=3)
+        arq_saida << "M = " << (i/3)+1 << endl << "Duração: " << individuais[i] << " ms" << endl << "Comparações: " << individuais[i+1] << endl << "Movimentações: " << individuais[i+2] << endl << endl;
+            
+    arq_saida << "== Médias ==" << endl << "Duração: " << medias[0] << " ms" << endl << "Comparações: " << medias[1] << endl << "Movimentações: " << medias[2] << endl;
+
+    arq_saida.close();
 
 }
 
