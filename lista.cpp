@@ -1,4 +1,5 @@
 #include <vector>
+#include <math.h>
 #include <iomanip>
 #include "lista.h"
 #include "string.h"
@@ -209,7 +210,7 @@ void Lista::heap_sort(int& time, int& comp, int& mov)
     auto te = chrono::high_resolution_clock::now();
 
     int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
-    
+
     time = duration;
 }
 
@@ -250,7 +251,7 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
         sublista = this->subListaAleatoria(n);
         if( algoritmo == 'h' ) sublista->heap_sort(time,comparations,movements);
         else if( algoritmo == 'q' ) ;
-        else if( algoritmo == 'h' ) ;
+        else if( algoritmo == 'i' ) sublista->introSort(0, sublista->get_pos(), time, comparations, movements);
         individuais[i] = time;
         individuais[i+1] = comparations;
         individuais[i+2] = movements;
@@ -268,7 +269,7 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
 
     for( int i=0; i < m*3; i+=3)
         arq_saida << "M = " << (i/3)+1 << endl << "Duração: " << individuais[i] << " ms" << endl << "Comparações: " << individuais[i+1] << endl << "Movimentações: " << individuais[i+2] << endl << endl;
-            
+
     arq_saida << "== Médias ==" << endl << "Duração: " << medias[0] << " ms" << endl << "Comparações: " << medias[1] << endl << "Movimentações: " << medias[2] << endl;
 
     arq_saida.close();
@@ -361,3 +362,181 @@ int Lista::append(No* no){
     //this->vet.push_back( no );
     return 0;
 }
+
+int Lista::introSort(int begin, int end, int& time, int& comps, int& movs){
+    time = 0; comps = 0; movs = 0;
+    // introSortLoop(v, begin, end, 2*log2(end - begin));
+    auto ts = chrono::high_resolution_clock::now();
+    introSortLoop(begin, end, 2*log2(end - begin), comps, movs);
+    // introSortLoop(begin, end, 0, comps, movs);
+    insertionSort(begin, end, comps, movs);
+    auto te = chrono::high_resolution_clock::now();
+    time = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
+    cout << "==( IntroSort )==" << endl;
+    cout << "Tempo de execução : " << time<< " ms" << endl;
+    cout << "Número de comparações: " << comps << endl;
+    cout << "Número de movimentações de chaves: " << movs << endl;
+    cout << "== ( Fim )==" << endl;
+    return 0;
+}
+int Lista::introSortLoop(int beg, int end, int depthLimit, int& comps, int& movs){
+    while(end - beg > 10){ // primeiro verifica se o tamanho do subvetor eh grande o suficiente para ser valido usar o quickSort ao inves do insertionSort
+    // claro que para um tamanho == 1 temos o caso base do quicksort.
+        if(depthLimit == 0){ // se chegar num numero de chamadas muito elevado (ao ponto de ficar O(n^2)) eh usado o heapsort, que tem como pior caso O(nlogn)
+            heap_sort(beg, end, comps, movs);
+            return 0;
+        }
+
+        depthLimit--;
+        int pivot = partition(beg, end, this->medianOf3(this->vet[beg]->getCasos(), this->vet[(int)(end-beg)/2]->getCasos(), this->vet[end-1]->getCasos()), comps, movs);
+        introSortLoop(pivot, end, depthLimit, comps, movs);
+        end = pivot; /*  Ou seja, primeiro eh ordenado recursivamente todo o lado a direita do pivo, depois todo o lado esquerdo. (pivot = end)
+                      *  Normalmente eh feito 2 chamadas recursivamente uma pro lado esquerdo do pivo e uma pro lado direito, uma depois da outra.
+                      *  Todavia nesse caso eh feito todas as chamadas recursivas do lado direito primeiro
+                      */
+    }
+    return 0;
+}
+int Lista::medianOf3(int a, int b, int c){
+    if((a >= b || c >= b) && (b >= a || b >= c))
+        return b;
+    if((b >= a || c >= a) && (a >= b || a >= c))
+        return a;
+    if((a >= c || b >= c) && (c >= a || c >= b))
+        return c;
+    return b;
+}
+int Lista::partition(int beg, int end, int pivot, int& comps, int& movs){
+    // particiona o subvetor, retornando a posicao final do vetor
+
+    int size = end - beg;
+    No aux; // usado para as trocas de elemento
+    int i = beg, j = end - 1;
+    while(i <= j)
+	{
+		while(this->vet[i]->getCasos() < pivot && i < end)
+		{
+			i++;
+            comps++;
+		}
+		while(this->vet[j]->getCasos() > pivot && j > beg)
+		{
+			j--;
+            comps++;
+		}
+		if(i <= j)
+		{
+			aux = *(this->vet[i]); // Nota do Autor: eu fiquei um total de 4 horas pra descobrir que "*(this->vet[i])" eh diferente de "*this->vet[i]"
+			*(this->vet[i]) = *(this->vet[j]);
+			*(this->vet[j]) = aux;
+			i++;
+			j--;
+            movs++;
+		}
+        // std::cout<< "vetor: ";
+        // for(int i = 0; i < end - beg; i++){
+            // std::cout << this->vet[beg + i]->getCasos() << " ";
+        // }
+        // std::cout<< "vetor: ";
+        // for(int k = 0; k < 20; k++){
+            // if(beg == k)
+                // std::cout << "b:";
+            // if(end == k)
+                // std::cout << "e:";
+            // std::cout << this->vet[k]->getCasos() << " ";
+        // }
+        // std::cout << std::endl;
+	}
+    // std::cout << "j:" << j;
+    if(j != beg - 1)
+        return j+1;
+    return j+2;
+}
+void swap(int* v, int i1, int i2){
+    /* troca a posicao de 2 elementos dados seus indices
+     */
+    int aux = v[i1];
+    v[i1] = v[i2];
+    v[i2] = aux;
+
+}
+void Lista::max_heapify(No** vet, int beg, int i, int last, int& comps, int& movs)
+{
+    int m = i;
+    int l = (i - beg)*2 + beg;
+    int r = l+1;
+
+    // <-- ORDENA A HEAP DE ACORDO COM numero de casos
+    if( l <= last )
+    {
+        comps++;
+        if( vet[l]->getCasos() > vet[i]->getCasos())
+        {
+            m = l;
+            comps++;
+        }
+    }
+
+    if( r <= last )
+    {
+        comps++;
+        if( vet[r]->getCasos() > vet[m]->getCasos())
+        {
+            comps++;
+            m = r;
+        }
+    }
+
+
+
+    if( m != i )
+    {
+        comps++;
+        No* aux = vet[m];
+        vet[m] = vet[i];
+        vet[i] = aux;
+        movs++;
+        this->max_heapify(vet,beg, m,last,comps,movs);
+    }
+
+}
+
+void Lista::heap_sort(int beg, int end, int& comp, int& mov)
+{
+    // auto ts = chrono::high_resolution_clock::now();
+    // CONSTROI A HEAP
+    for( int i = (end - beg - 1)/2 + beg; i >= beg; i-- )
+        this->max_heapify(this->vet, beg, i, end-1, comp, mov);
+
+    // ORDENA A HEAP
+    for( int i = end - 1; i > beg; i-- )
+    {
+        No* aux = this->vet[beg];
+        this->vet[beg] = this->vet[i];
+        this->vet[i] = aux;
+        this->max_heapify(this->vet, beg, beg, i-1, comp, mov);
+    }
+    auto te = chrono::high_resolution_clock::now();
+
+    // int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
+
+    // time = duration;
+}
+void Lista::insertionSort(int beg, int end, int& comps, int& movs){
+
+    for (int i = beg + 1; i < end; i++) {
+		No* escolhido = this->vet[i];
+		int j = i - 1;
+
+		while ((j >= beg) && (this->vet[j]->getCasos() > escolhido->getCasos())) {
+			this->vet[j + 1] = this->vet[j];
+            movs++;
+            comps++;
+			j--;
+		}
+
+		this->vet[j + 1] = escolhido;
+        movs++;
+	}
+}
+

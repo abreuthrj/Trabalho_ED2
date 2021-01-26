@@ -28,7 +28,7 @@ void print_menu(bool& lista)
     cout << "g - Gerar sublista de N dados aleatórios" << endl;
     cout << "h - Ordenar com HeapSort" << endl;
     cout << "q - Ordenar com QuickSort ( Em Breve )" << endl;
-    cout << "x - Ordenar com ????????? ( Em Breve )" << endl;
+    cout << "i - Ordenar com IntroSort" << endl;
     cout << "p - Printar lista (Esse processo pode demorar alguns minutos)" << endl;
     cout << "t - Printar tamanho da lista" << endl;
     cout << "s - Fechar programa" << endl;
@@ -36,6 +36,7 @@ void print_menu(bool& lista)
 
 void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
 {
+    int time, comps, movs;
     char comando;
     string arq_saida;
     Lista* selecionada = ( isLista ? lista:sublista );
@@ -47,6 +48,9 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
     {
         case 'h':
             selecionada->heap_sort();
+        break;
+        case 'i':
+            selecionada->introSort(0, selecionada->get_pos(), time, comps, movs);
         break;
 
         case 'p':
@@ -77,14 +81,14 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
             cin >> ndata;
             cout << "Digite o valor de M ( Número de vezes a ser ordenado ): ";
             cin >> mtimes;
-            cout << "Digite o algoritmo de ordenação [h/q/x]: ";
+            cout << "Digite o algoritmo de ordenação [h/q/i]: ";
             cin >> alg;
             cout << "Digite o nome do arquivo de saida (.txt): ";
             cin >> arq_saida;
             selecionada->analisa_algoritmo(alg,ndata,mtimes,arq_saida);
         break;
 
-        case 'f': 
+        case 'f':
             etapa01(lista);
         break;
 

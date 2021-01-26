@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <fstream>
 #include <chrono>
 #include "lista.h"
@@ -26,8 +27,10 @@ int main(int argc, char** argv)
     auto t2 = chrono::high_resolution_clock::now();
     cout << "Tempo do algorítmo de leitura: " << chrono::duration_cast<chrono::milliseconds>(t2-t1).count() << " ms" << endl;
     Lista* sublista = nullptr;
-    //sublista = lista->subListaAleatoria(1.4e6);
-
+    sublista = lista->subListaAleatoria(2e5);
+    int t = 0, comps = 0, movs = 0;
+    // sublista->heap_sort(5, 15, a, b, c);
+    //sublista->insertionSort(0, 20, comps, movs);
     /**
      * Inicializa Menu
     **/
