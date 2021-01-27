@@ -16,6 +16,7 @@ class Lista
 
         string no_to_line(No* no);
         void max_heapify(No** vet, int i, int n, int& comps, int& movs);
+        void max_heapify_cases(int i, int n, int& comps, int& movs);
         void max_heapify(No** vet, int begin, int i, int end, int& comps, int& movs);
         int introSortLoop(int begin, int end, int depthLimit, int& comps, int& movs);
         int partition(int begin, int end, int pivot);

@@ -166,6 +166,10 @@ void Lista::max_heapify(No** vet, int i, int n, int& comps, int& movs)
 
 void Lista::heap_sort()
 {
+    /**
+     * Ordena de acordo com o par (Estado->Cidade), Data 
+     * Exibe os dados produzidos pelo algoritmp
+     */
     int comp, movs = 0;
 
     auto ts = chrono::high_resolution_clock::now();
@@ -192,12 +196,58 @@ void Lista::heap_sort()
     cout << "== ( Fim )==" << endl;
 }
 
+void Lista::max_heapify_cases(int i, int n, int& comps, int& movs)
+{
+    int m = i;
+    int l = i*2;
+    int r = i*2+1;
+
+    /**
+     *  Ordena de acordo com o Número de Casos
+     */
+
+    if( l <= n )
+    {
+        comps++;
+        if( this->vet[l]->getCasos() > this->vet[i]->getCasos() )
+        {
+            comps++;
+            m = l;
+        }
+    }
+
+    if( r <= n )
+    {
+        comps++;
+        if( this->vet[r]->getCasos() > this->vet[m]->getCasos() )
+        {
+            comps++;
+            m = r;
+        }
+    }
+
+    if( m != i )
+    {
+        comps++;
+        No* aux = this->vet[i];
+        this->vet[i] = this->vet[m];
+        this->vet[m] = aux;
+        movs++;
+        this->max_heapify_cases(m,n,comps,movs);
+    }
+
+}
+
 void Lista::heap_sort(int& time, int& comp, int& mov)
 {
+    /**
+     * Apenas ordena, guardando os dados produzidos pelo algoritmo 
+     * nas variaveis passadas por referencia 
+     */
     auto ts = chrono::high_resolution_clock::now();
     // CONSTROI A HEAP
     for( int i = (this->tam-1)/2; i >= 0; i-- )
-        this->max_heapify(this->vet, i, (this->tam-1), comp, mov);
+        this->max_heapify_cases(i, (this->tam-1), comp, mov);
 
     // ORDENA A HEAP
     for( int i = (this->tam-1); i > 0; i-- )
@@ -205,7 +255,7 @@ void Lista::heap_sort(int& time, int& comp, int& mov)
         No* aux = this->vet[0];
         this->vet[0] = this->vet[i];
         this->vet[i] = aux;
-        this->max_heapify(this->vet, 0, i-1, comp, mov);
+        this->max_heapify_cases(0, i-1, comp, mov);
     }
     auto te = chrono::high_resolution_clock::now();
 
