@@ -22,6 +22,7 @@ class Lista
         int partition(int begin, int end, int pivot);
         int partition(int begin, int end, int pivot, int& comps, int& movs);
         int medianOf3(int a, int b, int c);
+        void quick_sort(int& time, int& comps, int& movs);
 
     public:
         Lista(ifstream& file);

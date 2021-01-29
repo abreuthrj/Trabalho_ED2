@@ -300,7 +300,7 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
         time = comparations = movements = 0;
         sublista = this->subListaAleatoria(n);
         if( algoritmo == 'h' ) sublista->heap_sort(time,comparations,movements);
-        else if( algoritmo == 'q' ) sublista->quickSort(0,sublista->tam-1, comparations, movements);
+        else if( algoritmo == 'q' ) sublista->quick_sort(time, comparations, movements);
         else if( algoritmo == 'i' ) sublista->introSort(0, sublista->get_pos(), time, comparations, movements);
         individuais[i] = time;
         individuais[i+1] = comparations;
@@ -667,4 +667,11 @@ void Lista::quick_sort() {
     cout << "Número de comparações: " << comps << endl;
     cout << "Número de movimentações de chaves: " << movs << endl;
     cout << "== ( Fim )==" << endl;
+}
+
+void Lista::quick_sort(int& time, int& comps, int& movs) {
+    auto ts = chrono::high_resolution_clock::now();
+    quickSort(0, this->tam-1, comps, movs);
+    auto te = chrono::high_resolution_clock::now();
+    time = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
 }
