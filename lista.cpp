@@ -595,33 +595,61 @@ void Lista::insertionSort(int beg, int end, int& comps, int& movs){
  **/
 
 int Lista::particionar(int p, int q, int& comps, int& movs){
-    int part = p;
-    int pivo = this->vet[q]->getCasos(); // pivo como ultimo elemento
-    int j;
-    cout << "loop";
-    for (int i = p; i < q; i++){
-        if(this->vet[i]->getCasos()<= pivo){
-            comps++;
-            j = this->vet[i]->getCasos();
-            this->vet[i]->setCasos(this->vet[part]->getCasos());
-            this->vet[part]->setCasos(j);
-            part++;
-            movs += 2;
-            cout <<"loop2";
-        }
+    // int part = p;
+    int pivoIndice = (p+q)/2;
+    int pivo = this->vet[pivoIndice]->getCasos(); // pivo como ultimo elemento
+    No* aux;
+    int i =p;
+    int j = q;
+    // cout << "loop";
+    // cout << pivoIndice<<endl;
+    do{
+    while(this->vet[i]->getCasos() < pivo){
+        i++;
+        // cout<< "  while do i ";
+        comps++;
+    } 
+
+    while(this->vet[j]->getCasos() > pivo) {
+        j--;
+        // cout<< "  while do j ";
+        comps++;
     }
-    cout <<"loop3";
-    j = this->vet[q]->getCasos();
-    this->vet[q]->setCasos(this->vet[part]->getCasos());
-    this->vet[part]->setCasos(j);
-    movs += 2;
-    return part;
+    
+    if(i<=j){
+        comps++;
+        aux = this->vet[i];
+        this->vet[i] = this->vet[j];
+        this->vet[j] = aux;
+        i++;
+        j--;
+        movs ++;
+    }
+    }
+    while(i<=j);
+    return j;
+    // for (int i = p; i < q-1; i++){
+    //     if(this->vet[i]->getCasos()<= pivo){
+    //         comps++;
+    //         aux = this->vet[i];
+    //         this->vet[i] = this->vet[part];
+    //         this->vet[part] = aux;
+    //         part++;
+    //         movs ++;
+    //         cout <<"loop2";
+    //     }
+    // }
+    // cout <<"loop3";
+    // aux = this->vet[q-1];
+    // this->vet[q-1] = this->vet[part];
+    // this->vet[part] = aux;
+    // movs ++;
 }
 
 void Lista::quickSort(int p, int q, int& comps, int& movs){
-    cout<<"entrou na recursao";
-    if(p < q){
-        cout << "entrou no if";
+    // cout<<"entrou na recursao" <<endl;
+    if(q-p > 0){
+        // cout << " entrou no if";
         int part = particionar(p, q, comps, movs);
         quickSort(p, part-1, comps, movs);
         quickSort(part +1, q, comps, movs);
@@ -633,11 +661,10 @@ void Lista::quick_sort() {
     auto ts = chrono::high_resolution_clock::now();
 
     int movs, comps = 0;
-    quickSort(0, this->pos, comps, movs);
+    quickSort(0, this->tam-1, comps, movs);
     cout <<"SAIU DO ALGORITMO";
     auto te = chrono::high_resolution_clock::now();
     int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
-
 
     cout << "==( QuickSort )==" << endl;
     cout << "Tempo de execução : " << duration << " ms" << endl;
