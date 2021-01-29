@@ -317,10 +317,26 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
 
     ofstream arq_saida(arq_nome+".txt");
 
-    for( int i=0; i < m*3; i+=3)
-        arq_saida << "M = " << (i/3)+1 << endl << "Duração: " << individuais[i] << " ms" << endl << "Comparações: " << individuais[i+1] << endl << "Movimentações: " << individuais[i+2] << endl << endl;
+    bool teste = true;
 
-    arq_saida << "== Médias ==" << endl << "Duração: " << medias[0] << " ms" << endl << "Comparações: " << medias[1] << endl << "Movimentações: " << medias[2] << endl;
+    if( teste )
+    {
+        for( int i = 0; i < m*3; i+=3 )
+            arq_saida << individuais[i] << "	";
+        arq_saida << medias[0];
+        for( int i = 0; i < m*3; i+=3 )
+            arq_saida << individuais[i+1] << "	";
+        arq_saida << medias[1];
+        for( int i = 0; i < m*3; i+=3 )
+            arq_saida << individuais[i+2] << "	";
+        arq_saida << medias[2];
+    }
+    else
+        for( int i=0; i < m*3; i+=3)
+            arq_saida << "M = " << (i/3)+1 << endl << "Duração: " << individuais[i] << " ms" << endl << "Comparações: " << individuais[i+1] << endl << "Movimentações: " << individuais[i+2] << endl << endl;
+
+    if( !teste )
+        arq_saida << "== Médias ==" << endl << "Duração: " << medias[0] << " ms" << endl << "Comparações: " << medias[1] << endl << "Movimentações: " << medias[2] << endl;
 
     arq_saida.close();
 
