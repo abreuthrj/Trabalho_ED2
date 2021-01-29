@@ -624,23 +624,23 @@ void Lista::insertionSort(int beg, int end, int& comps, int& movs){
 int Lista::particionar(int p, int q, int& comps, int& movs){
 
     int pivoIndice = (p+q)/2; // pivo como elemento do meio
-    int pivo = this->vet[pivoIndice]->getCasos();
+    int pivo = this->vet[pivoIndice]->getCasos(); //pivo recebe o valor do elemento do meio 
     No* aux;
-    int i =p;
+    int i =p; //variaveis auxiliares recebem os limites do vetor ou subvetor
     int j = q;
 
     do{
-    while(this->vet[i]->getCasos() < pivo){
+    while(this->vet[i]->getCasos() < pivo){ // analisando os elementos a esquerda do pivo, caso um elemento maior que pivo ele sera movido para a esquerda
         i++;
         comps++;
     } 
 
-    while(this->vet[j]->getCasos() > pivo) {
+    while(this->vet[j]->getCasos() > pivo) { // analisando os elementos a direita do pivo, caso um elemento maior que pivo ele sera movido para a direita
         j--;
         comps++;
     }
     
-    if(i<=j){
+    if(i<=j){ // troca de posicoes 
         comps++;
         aux = this->vet[i];
         this->vet[i] = this->vet[j];
@@ -651,16 +651,16 @@ int Lista::particionar(int p, int q, int& comps, int& movs){
     }
     }
     while(i<=j);
-    return j;
+    return j; //retorno do limite inferior e superior
 }
 
 void Lista::quickSort(int p, int q, int& comps, int& movs){
 
-    if(q-p > 0){
-        int part = particionar(p, q, comps, movs);
+    if(q-p > 0){ //caso a diferenca entre os indices for igual a zero, os vetores ja estao ordenados ja que os indices estao iguais 
+        int part = particionar(p, q, comps, movs); 
         if(p < part){
-            quickSort(p, part-1, comps, movs);
-            quickSort(part +1, q, comps, movs);
+            quickSort(p, part-1, comps, movs); //chamada para os elementos a esquerda do pivo
+            quickSort(part +1, q, comps, movs); //chamada para os elementos a direita do pivo
         }
     }
 }
@@ -668,8 +668,8 @@ void Lista::quickSort(int p, int q, int& comps, int& movs){
 void Lista::quick_sort() {
     auto ts = chrono::high_resolution_clock::now();
 
-    int movs, comps = 0;
-    quickSort(0, this->tam-1, comps, movs);
+    int movs, comps = 0; // variavei para rastreio do numero de troca de posicoes e de movimentacaoes
+    quickSort(0, this->tam-1, comps, movs); // quicksort chamado com o escopo de todo o vetor
     auto te = chrono::high_resolution_clock::now();
     int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
 
