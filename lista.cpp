@@ -300,7 +300,7 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
         time = comparations = movements = 0;
         sublista = this->subListaAleatoria(n);
         if( algoritmo == 'h' ) sublista->heap_sort(time,comparations,movements);
-        else if( algoritmo == 'q' ) sublista->quick_sort();
+        else if( algoritmo == 'q' ) sublista->quickSort(0,sublista->tam-1, comparations, movements);
         else if( algoritmo == 'i' ) sublista->introSort(0, sublista->get_pos(), time, comparations, movements);
         individuais[i] = time;
         individuais[i+1] = comparations;
