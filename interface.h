@@ -27,7 +27,7 @@ void print_menu(bool& lista)
     cout << "a - Armazenar em arquivo .csv" << endl;
     cout << "g - Gerar sublista de N dados aleatórios" << endl;
     cout << "h - Ordenar com HeapSort" << endl;
-    cout << "q - Ordenar com QuickSort ( Em Breve )" << endl;
+    cout << "q - Ordenar com QuickSort" << endl;
     cout << "i - Ordenar com IntroSort" << endl;
     cout << "p - Printar lista (Esse processo pode demorar alguns minutos)" << endl;
     cout << "t - Printar tamanho da lista" << endl;
