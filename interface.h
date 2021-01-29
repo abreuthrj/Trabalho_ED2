@@ -19,6 +19,7 @@ void menu(Lista* lista, Lista* sublista, bool isLista=true)
 void print_menu(bool& lista)
 {
     cout << "== Interface de Apoio ===" << endl;
+    cout << endl;
     cout << "Etapas" << endl;
     cout << "f - Realizar etapa 01" << endl;
     cout << "e - Realizar etapa 02" << endl;

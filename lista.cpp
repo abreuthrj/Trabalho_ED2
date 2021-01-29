@@ -317,7 +317,7 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
 
     ofstream arq_saida(arq_nome+".txt");
 
-    bool teste = true;
+    bool teste = false; // IMPRIMIR DE MANEIRA A FACILITAR INSERÇÃO DE DADOS NO EXCEL
 
     if( teste )
     {
@@ -345,6 +345,7 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
 /**
  * @author Samuel Abreu
 **/
+
 Lista::Lista(int size){
     this->tam = size;
     this->pos = 0;
@@ -361,6 +362,7 @@ void Lista::save_to_csv(string filename){
     }
     file.close();
 }
+
 string Lista::no_to_line(No* no){
 /* retorna uma string contendo:
  * data,estado,nomeDaCidade,codigo,nCasos,mortes\n
@@ -376,6 +378,7 @@ string Lista::no_to_line(No* no){
         << std::endl;
     return ss.str();
 }
+
 Lista* Lista::subListaAleatoriaOld(int n){
     //mantive essa versao antiga (O(n^2)) para fins ilustrativos
     int size = this->tam;
@@ -396,6 +399,7 @@ Lista* Lista::subListaAleatoriaOld(int n){
     }
     return lista;
 }
+
 Lista* Lista::subListaAleatoria(int n){
     /* cria um vetor I que armazena os indices do vetor da lista.
      * Para cada elemento j desse vetor I,
@@ -420,6 +424,7 @@ Lista* Lista::subListaAleatoria(int n){
     }
     return lista;
 }
+
 int Lista::append(No* no){
     if(this->pos >= this->tam)
         return -1;
@@ -445,6 +450,7 @@ int Lista::introSort(int begin, int end, int& time, int& comps, int& movs){
     cout << "== ( Fim )==" << endl;
     return 0;
 }
+
 int Lista::introSortLoop(int beg, int end, int depthLimit, int& comps, int& movs){
     while(end - beg > 10){ // primeiro verifica se o tamanho do subvetor eh grande o suficiente para ser valido usar o quickSort ao inves do insertionSort
     // claro que para um tamanho == 1 temos o caso base do quicksort.
@@ -463,6 +469,7 @@ int Lista::introSortLoop(int beg, int end, int depthLimit, int& comps, int& movs
     }
     return 0;
 }
+
 int Lista::medianOf3(int a, int b, int c){
     if((a >= b || c >= b) && (b >= a || b >= c))
         return b;
@@ -472,6 +479,7 @@ int Lista::medianOf3(int a, int b, int c){
         return c;
     return b;
 }
+
 int Lista::partition(int beg, int end, int pivot, int& comps, int& movs){
     // particiona o subvetor, retornando a posicao final do vetor
 
@@ -518,6 +526,7 @@ int Lista::partition(int beg, int end, int pivot, int& comps, int& movs){
         return j+1;
     return j+2;
 }
+
 void swap(int* v, int i1, int i2){
     /* troca a posicao de 2 elementos dados seus indices
      */
@@ -526,6 +535,7 @@ void swap(int* v, int i1, int i2){
     v[i2] = aux;
 
 }
+
 void Lista::max_heapify(No** vet, int beg, int i, int last, int& comps, int& movs)
 {
     int m = i;
@@ -588,6 +598,7 @@ void Lista::heap_sort(int beg, int end, int& comp, int& mov)
 
     // time = duration;
 }
+
 void Lista::insertionSort(int beg, int end, int& comps, int& movs){
 
     for (int i = beg + 1; i < end; i++) {
