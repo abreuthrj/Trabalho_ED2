@@ -43,6 +43,10 @@ class Lista
         void save_to_csv(string filename);
         Lista* subListaAleatoria(int n);
         Lista* subListaAleatoriaOld(int n);
+
+        int particionar(int p, int q, int& comps, int& movs);
+        void quickSort(int p, int q, int& comps, int& movs);
+        void quick_sort();
 };
 
 #endif

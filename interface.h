@@ -67,6 +67,10 @@ void processa_menu(Lista* lista, Lista* sublista, bool& isLista)
             selecionada->save_to_csv(arq_saida);
         break;
 
+        case 'q':
+            selecionada->quick_sort();
+        break;
+
         case 'g':
             int n;
             cout << "Digite o valor de N: ";

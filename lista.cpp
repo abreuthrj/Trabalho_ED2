@@ -590,3 +590,58 @@ void Lista::insertionSort(int beg, int end, int& comps, int& movs){
 	}
 }
 
+/**
+ * @author Gabriel Barreto Calixto
+ **/
+
+int Lista::particionar(int p, int q, int& comps, int& movs){
+    int part = p;
+    int pivo = this->vet[q]->getCasos(); // pivo como ultimo elemento
+    int j;
+    cout << "loop";
+    for (int i = p; i < q; i++){
+        if(this->vet[i]->getCasos()<= pivo){
+            comps++;
+            j = this->vet[i]->getCasos();
+            this->vet[i]->setCasos(this->vet[part]->getCasos());
+            this->vet[part]->setCasos(j);
+            part++;
+            movs += 2;
+            cout <<"loop2";
+        }
+    }
+    cout <<"loop3";
+    j = this->vet[q]->getCasos();
+    this->vet[q]->setCasos(this->vet[part]->getCasos());
+    this->vet[part]->setCasos(j);
+    movs += 2;
+    return part;
+}
+
+void Lista::quickSort(int p, int q, int& comps, int& movs){
+    cout<<"entrou na recursao";
+    if(p < q){
+        cout << "entrou no if";
+        int part = particionar(p, q, comps, movs);
+        quickSort(p, part-1, comps, movs);
+        quickSort(part +1, q, comps, movs);
+    }
+}
+
+void Lista::quick_sort() {
+    cout << "ENTROU NO ALGORITMO";
+    auto ts = chrono::high_resolution_clock::now();
+
+    int movs, comps = 0;
+    quickSort(0, this->pos, comps, movs);
+    cout <<"SAIU DO ALGORITMO";
+    auto te = chrono::high_resolution_clock::now();
+    int duration = chrono::duration_cast<chrono::milliseconds>(te-ts).count();
+
+
+    cout << "==( QuickSort )==" << endl;
+    cout << "Tempo de execução : " << duration << " ms" << endl;
+    cout << "Número de comparações: " << comps << endl;
+    cout << "Número de movimentações de chaves: " << movs << endl;
+    cout << "== ( Fim )==" << endl;
+}
