@@ -323,13 +323,13 @@ void Lista::analisa_algoritmo(char algoritmo, int n, int m, string arq_nome = "s
     {
         for( int i = 0; i < m*3; i+=3 )
             arq_saida << individuais[i] << "	";
-        arq_saida << medias[0];
+        arq_saida << medias[0] << endl;
         for( int i = 0; i < m*3; i+=3 )
             arq_saida << individuais[i+1] << "	";
-        arq_saida << medias[1];
+        arq_saida << medias[1] << endl;
         for( int i = 0; i < m*3; i+=3 )
             arq_saida << individuais[i+2] << "	";
-        arq_saida << medias[2];
+        arq_saida << medias[2] << endl;
     }
     else
         for( int i=0; i < m*3; i+=3)
